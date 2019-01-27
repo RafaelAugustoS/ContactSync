@@ -1,0 +1,3 @@
+rootProject.name = 'ContactSync'
+
+include ':app'
