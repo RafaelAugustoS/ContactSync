@@ -1,12 +1,18 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Switch } from 'react-native'
 
 class Card extends Component {
     render(){
+        const { index, title, sub, classe, status, change } = this.props
         return(
-            <View style={styles.Card}>
-                <Text style={styles.Title}>Connect Contacts</Text>
-                <Text style={styles.Sub}>All your phone Contacts will be automatically added to your frinds list.</Text>
+            <View style={[styles.Card, status ? styles[classe] : null ]}>
+                <Text style={styles.Title}>{ title }</Text>
+                <Text style={styles.Sub}>{ sub }</Text>
+                <Switch 
+                    style={styles.Switch}
+                    value={status}
+                    onValueChange={() => change(index)}
+                />
             </View>
         )
     }
@@ -23,6 +29,9 @@ const styles = StyleSheet.create({
     BgBlue: {
         backgroundColor: '#3EABF8'
     },
+    BgGreen: {
+        backgroundColor: '#89B73B'
+    },
     TextWhite: {
         color: '#fff'
     },
@@ -35,6 +44,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 5,
         color: '#444'
+    },
+    Switch: {
+        marginTop: 20
     }
 })
 
