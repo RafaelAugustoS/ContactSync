@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Switch, Animated } from 'react-native'
+import { View, Text, StyleSheet, Switch, Animated, Dimensions } from 'react-native'
 
 class Card extends Component {
     state = {
-        width: new Animated.Value(0),
-        height: new Animated.Value(0),
-        radius: new Animated.Value(0)
+        value: new Animated.Value(10),
+        percentual: new Animated.Value(0)
     }
 
     componentWillReceiveProps(nextProps){
@@ -17,50 +16,15 @@ class Card extends Component {
     }
 
     handleStartAnimation = () => {
-        Animated.sequence([
-            Animated.parallel([
-                Animated.timing(this.state.width, {
-                    toValue: 100,
-                    duration: 200
-                }),
-                Animated.timing(this.state.height, {
-                    toValue: 100,
-                    duration: 200
-                }),
-                Animated.timing(this.state.radius, {
-                    toValue: 100,
-                    duration: 200
-                })
-            ]),
-            Animated.timing(this.state.radius, {
-                toValue: 0,
-                duration: 0
-            })
-        ]).start()
+        Animated.timing(this.state.percentual, {
+            toValue: 120,
+        }).start()
     }
 
     handleStopAnimation = () => {
-        Animated.sequence([
-            Animated.parallel([
-                Animated.timing(this.state.width, {
-                    toValue: 0,
-                    duration: 200
-                }),
-                Animated.timing(this.state.height, {
-                    toValue: 0,
-                    duration: 200
-                }),
-                Animated.timing(this.state.radius, {
-                    toValue: 100,
-                    duration: 200
-                })
-            ]),
-            Animated.timing(this.state.radius, {
-                toValue: 0,
-                duration: 0
-            })
-        ]).start()
-        
+        Animated.timing(this.state.percentual, {
+            toValue: 0
+        }).start()
     }
 
 
@@ -71,17 +35,14 @@ class Card extends Component {
             <View style={styles.Card}>
                 <Animated.View 
                     style={[styles[classe], {
-                        width: this.state.width.interpolate({
-                            inputRange: [0, 1],
-                            outputRange: ['0%', '1%']
-                        }),
-                        height: this.state.height.interpolate({
-                            inputRange: [0, 1],
-                            outputRange: ['0%', '1%']
-                        }),
-                        borderTopLeftRadius: this.state.radius,
-                        borderTopRightRadius: this.state.radius,
-                        borderBottomLeftRadius: this.state.radius
+                        width: this.state.value,
+                        height: this.state.value,
+                        transform: [
+                            { translateX: - Dimensions.get('window').width * 0.50 / 100 },
+                            { translateY: - Dimensions.get('window').height * 0.50 / 100 },
+                            { scaleX: this.state.percentual },
+                            { scaleY: this.state.percentual }
+                        ]
                     }]} 
                 />
 
@@ -102,19 +63,24 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        overflow: 'hidden'
     },
     BgBlue: {
         backgroundColor: '#3EABF8',
         position: 'absolute',
-        right: 0,
-        bottom: 0
+        top: '50%',
+        left: '50%',
+        marginTop: 40,
+        borderRadius: 200
     },
     BgGreen: {
         backgroundColor: '#89B73B',
         position: 'absolute',
-        right: 0,
-        bottom: 0
+        top: '50%',
+        left: '50%',
+        marginTop: 40,
+        borderRadius: 200
     },
     TextWhite: {
         color: '#fff'
